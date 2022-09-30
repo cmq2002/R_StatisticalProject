@@ -1,0 +1,2277 @@
+\documentclass[a4paper]{article}
+%\documentclass{exam}
+\usepackage{chemformula}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{a4wide,amssymb,epsfig,latexsym,multicol,array,hhline,fancyhdr}
+\usepackage{vntex}
+\usepackage[english]{babel}
+\usepackage{inputenc}
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage{lastpage}
+\usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+\usepackage[backend=biber, style=numeric, sorting=ynt]{biblatex}
+\addbibresource{references.bib}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}							% Standard graphics package
+\usepackage{tabularx, caption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{epsfig}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{longtable}
+\usetikzlibrary{arrows,snakes,backgrounds}
+\usepackage{hyperref}
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=red,colorlinks=true,breaklinks=true} 
+%\usepackage{pstcol} 								% PSTricks with the standard color package
+
+\counterwithin*{equation}{section}
+\counterwithin*{equation}{subsection}
+
+
+\newtheorem{theorem}{{\bf Theorem}}
+\newtheorem{property}{{\bf Property}}
+\newtheorem{proposition}{{\bf Proposition}}
+\newtheorem{corollary}[proposition]{{\bf Corollary}}
+\newtheorem{lemma}[proposition]{{\bf Lemma}}
+
+
+
+\AtBeginDocument{\renewcommand*\contentsname{Contents}}
+\AtBeginDocument{\renewcommand*\refname{References}}
+%\usepackage{fancyhdr}
+\setlength{\headheight}{40pt}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=8mm, height=8mm]{Picture/hcmut.png}}
+    %\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+   \end{picture}&
+	%\includegraphics[width=8mm, height=8mm]{hcmut.png} & %
+	\begin{tabular}{l}
+		\textbf{\bf \ttfamily Ho Chi Minh City University of Technology}\\
+		\textbf{\bf \ttfamily Faculty of Computer Science and Engineering}
+	\end{tabular} 	
+ \end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+	\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize \ttfamily Probability and Statistics Assignment's Report, Semester 212}
+\fancyfoot[R]{\scriptsize \ttfamily Page {\thepage}/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+
+%%%
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\makeatletter
+\newcounter {subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection .\@alph\c@subsubsubsection}
+\newcommand\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\newcommand*\l@subsubsubsection{\@dottedtocline{3}{10.0em}{4.1em}}
+\newcommand*{\subsubsubsectionmark}[1]{}
+\makeatother
+
+\newcommand{\alert}[1]{\textcolor{blue}{#1}}
+\newcommand\afterclassquestion{\renewcommand\questionlabel{\thequestion.\makebox[0pt]{$^\ast$}}}  
+\newcommand\standardquestion{\renewcommand\questionlabel{\thequestion.}} 
+
+\lstset{language=R,
+    basicstyle=\small\ttfamily,
+    stringstyle=\color{green},
+    otherkeywords={0,1,2,3,4,5,6,7,8,9},
+    morekeywords={TRUE,FALSE},
+    deletekeywords={data,frame,length,as,character},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+}
+
+
+
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+HO CHI MINH CITY UNIVERSITY OF TECHNOLOGY \\
+FACULTY OF COMPUTER SCIENCE AND ENGINEERING
+\end{center}
+
+\vspace{1cm}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=3cm]{Picture/hcmut.png}
+\end{center}
+\end{figure}
+
+\vspace{1cm}
+
+
+\begin{center} 
+\textbf{\Huge Probability $\&$ Statistic-MT2013}    \\
+\begin{tabular}{c}
+\hline
+\\
+\begin{tabular}{c}                           
+    \textbf{\Huge Assignment's Report} \\
+    {}                               \\
+    \textbf{\large Analyses The Relationships between Various CPU Specifications}\\
+    {}                          \\
+    \textbf{\large with Multi-factor ANOVA Test}\\
+    {}              \\
+    \textbf{\large and Multiple Linear Regression Models using R}\\
+    {} \\
+\end{tabular}
+\\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{2.5cm}
+
+\begin{table}[h]
+\begin{tabular}{rrl}
+\Large
+\hspace{5 cm} & Lecturer: & Nguyễn Tiến Dũng\\
+& Class: & CC03 \\
+& Group: & 03 \\
+& Students: & Cao Minh Quang - 2052221\\
+& & Trần Cao Duy Trường -2052299  \\
+& & Lâm Quang Khải - 2052128 \\
+& & Hoàng Cao Quốc Thắng - 2050020 \\
+& & Trương Huỳnh Đăng Khoa - 2053145\\
+\end{tabular}
+\end{table}
+
+\begin{center}
+{\footnotesize HO CHI MINH CITY, May 2022}
+\end{center}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Member list and Workload}
+\begin{table}[H]
+\large
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{1}{|c|}{\textbf{No.}} & \multicolumn{1}{c|}{\textbf{Full name}} & \multicolumn{1}{c|}{\textbf{Student ID}} & \multicolumn{1}{c|}{\textbf{Task}} & \multicolumn{1}{c|}{\textbf{Contribution}}\\
+\hline
+
+%%%%%Student 1%%%%%%%%%%
+\multirow{2}{*}{1} & 
+\multirow{2}{*}{Cao Minh Quang} & 
+\multirow{2}{*}{2052221} & Tasks 6 + 7.1 & 
+\multirow{2}{*}{25\%}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & + 7.5 + 8.1 + 8.2 & 
+\multirow{2}{*}{}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & + 8.3.1 + 8.8 & 
+\multirow{2}{*}{}\\
+\hline
+
+%%%%% Student 2 %%%%%%%%%%%
+\multirow{2}{*}{2} & 
+\multirow{2}{*}{Trần Cao Duy Trường} & 
+\multirow{2}{*}{2052299} & Tasks 3 + 4 & 
+\multirow{2}{*}{17\%}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & + 7.2 + 8.7 & 
+\multirow{2}{*}{}\\
+\hline 
+
+%%%%% Student 3 %%%%%%%%%%%
+\multirow{2}{*}{3} & 
+\multirow{2}{*}{Lâm Quang Khải} & 
+\multirow{2}{*}{2052128} & Task 2 + 4 & 
+\multirow{2}{*}{21\%}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & + 5.3.1 + 7.1  & 
+\multirow{2}{*}{}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & +  7.4 + 8.5 & 
+\multirow{2}{*}{}\\
+\hline
+%%%%% Student 4 %%%%%%%%%%%
+\multirow{2}{*}{4} & 
+\multirow{2}{*}{Hoàng Cao Quốc Thắng} & 
+\multirow{2}{*}{2050020} & Tasks 5.1 + 5.2 & 
+\multirow{2}{*}{18\%}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & + 5.3.2 + 7.3 + 8.4 & 
+\multirow{2}{*}{}\\
+\hline
+%%%%% Student 5 %%%%%%%%%%%
+\multirow{2}{*}{5} & 
+\multirow{2}{*}{Trương Huỳnh Đăng Khoa} & 
+\multirow{2}{*}{2053145} & Tasks 2 + 5.3.3 & 
+\multirow{2}{*}{19\%}\\
+
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & 
+\multirow{2}{*}{} & + 7.4 + 8.3.2 + 8.6 & 
+\multirow{2}{*}{}\\
+\hline
+
+\end{tabular}
+\end{table}
+
+
+\newpage
+%%%%%% CONTENT %%%%%%%%
+\section{Introduction}
+\begin{itemize}
+    
+    \item[]Our group uses a Kaggle dataset that contains a collection of Intel CPUs released from 2010 through 2021 for our data analysis project. We hope to demonstrate the impact of cores, threads, bus speed, cache size, maximum memory, and maximum temperature on our computers' performance by analyzing the data from this dataset. We'll explain what these features are and how they relate to one another to help you transition into this computing subject.
+    
+    \item[]To begin, "CPU" stands for "Central Processing Unit," which is also referred to as a central processor. This electronic circuitry performs basic arithmetic, logic, controlling, and input/output operations specified by the instructions in the program. We can think of these actions as adding and removing data, as well as moving data around. A CPU used to be just one processing unit that could only handle one instruction at a time.
+    
+    \item[]However, since operating systems and programs have a lot more data and provide considerably more instructions for CPUs, we now have multiple processing units in one processor which are referred as cores. This means one processor can process multiple instructions at a time which significantly increases the speed of the CPU. For even better performance and multi-tasking, cores are split into threads. And its meaning is the same as slitting the central processor into cores.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=8cm]{Picture/intro_2.1.png}
+        \caption{Cores and threads illustration.}
+        \label{2.1}
+    \end{figure}
+    
+    \item[]The figure about bus in our dataset refers to the front side bus (FSB), which connect the CPU to the memory controller to manage the flow of data going to and from the computer's main memory(RAM/ROM). Therefore, the higher speed of FSB, the better computer’s performance we have.
+    
+    \item[]What is \textbf{cache} ? Cache is a small amount of memory which is a part of the CPU - closer to the CPU than RAM. It is used to temporarily hold instructions and data that the CPU is likely to reuse. The CPU control unit automatically checks cache for instructions before requesting data from RAM. This saves fetching the instructions and data repeatedly from RAM – a relatively slow process which might otherwise keep the CPU waiting. Transfers to and from cache take less time than transfers to and from RAM. The more cache there is, the more data can be stored closer to the CPU.
+
+    
+    \item[]Cache is graded as Level 1 (L1), Level 2 (L2) and Level 3 (L3):
+    \begin{itemize}
+    
+        \item \textbf{L1} is usually part of the CPU chip itself and is both the smallest and the fastest to access. Its size is often restricted to between 8 KB and 64 KB.
+    
+        \item \textbf{L2} and \textbf{L3} caches are bigger than \textbf{L1}. They are extra caches built between the CPU and the RAM. Sometimes L2 is built into the CPU with L1. L2 and L3 caches take slightly longer to access than \textbf{L1}. The more \textbf{L2} and \textbf{L3} memory available, the faster a computer can run.
+    
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=8cm, width=13cm]{Picture/cache_size.jpg}
+            \caption{Cache memory level.}
+            \label{2.1}
+        \end{figure}
+    \end{itemize}
+    
+    \item[]Not a lot of physical space is allocated for cache. There is more space for RAM, which is usually larger and less expensive.
+
+    \item[]Max Memory is the maximum amount of RAM this CPU will work with. For example, if we use 32GB max memory CPU , we can plug in 64GB RAM, but only 32GB will be used.
+
+    \item[]Max Temperature is the maximum amount of degree this CPU can be sustained and work properly. If somehow the temperature of CPU is over the maximum range, it will reduce the CPU performance just to cool it down and maybe break the CPU if the temperature is too hot. 
+\end{itemize}
+
+\section{Data Import}
+\begin{itemize}
+    \item[] In order to import data from .csv file and store it in an object the following code segment will be used:
+    \begin{lstlisting}
+    > setwd("C:/Users/Truong/Downloads/Documents")
+    > intel <- read.csv ("IntelProcessors.csv", header = TRUE, sep = ",")
+    > View(intel)
+    \end{lstlisting}  
+    
+    \item[] We used "setwd" instruction to set the directory to a folder where store our .csv file.
+    Futhermore, we should also put our R-script file in the same path.
+    
+    \item[] The instruction read.csv then will import data from file "IntelProcessors.csv" and store it in an object named "Intel".
+    
+    \item[] The instruction View allow us to take a look at our data frame.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=12cm]{Picture/3.png}
+        \caption{After cleaning data}
+        \label{3.1}
+    \end{figure}
+    
+    \item[] Our data set contains information of 1098 Intel CPUs from 2010 to 2021.
+\end{itemize}
+
+\section{Data cleaning}
+\begin{itemize}
+    
+    \item[]After reading the input file, next thing we have to do is to check if the data contain empty cells. And because of that we have written code to clean each variables.
+    \begin{lstlisting}
+    # Data Cleaning
+    > install.packages("tidyverse")
+    > library(tidyr)
+    > cleanIntel <- drop_na(intel)
+    > View(cleanIntel)
+    \end{lstlisting}
+    
+    \item[] The drop-na instruction will sequentially check whether each row has empty cells or not. If there is, the whole row will be deleted from the dataframe. A new object name "cleanIntel" will hold our data after this process.
+    
+    \item[] As we can see, almost half of the data frame has been removed due to empty entries.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=10cm]{Picture/4.png}
+        \caption{After cleaning data}
+        \label{4.1}
+    \end{figure}
+    
+    \item[] Now we start to list out the range of each variable and its data type in "cleanIntel". These information may be helpful in later section. In order to do that, we repeatively call 2 functions \textbf{table} and \textbf{is.numeric} to for easy further examination.
+    
+    \begin{lstlisting}
+    > is.numeric(cleanIntel$name)
+    [1] FALSE
+    
+    > is.numeric(cleanIntel$launch_date)
+    [1] FALSE
+    
+    > table(cleanIntel$cores)
+      2   4   6   8  10  12  14  16  18  24  28  32  38 
+     98 216 100  60  20   6   4   4   5   3   3   1   1 
+    > is.numeric(cleanIntel$cores)
+    [1] TRUE
+    
+    > table(cleanIntel$threads)
+      2   4   6   8  12  16  20  24  28  32  36  48  56  64  76 
+      2 157  25 162  75  53  20   6   4   4   5   3   3   1   1 
+    > is.numeric(cleanIntel$threads)
+    [1] TRUE
+    
+    > table(cleanIntel$bus_speed)
+      0   4   5   8 
+      3  85 127 306 
+    > is.numeric(cleanIntel$bus_speed)
+    [1] TRUE
+    
+    > table(cleanIntel$base_frequency)
+      700  800 1000 1100 1200 1300 1400 1500 1600 1700 1800 1900
+        1    1    4    9    6    6    5    9   16   10   15   9
+     2000 2100 2200 2300 2400 2500 2600 2700 2800 2900 3000 
+       15    7   19   21   25   23   26   25   34   28   25
+     3100 3200 3300 3400 3500 3600 3700 3800 3900 4000 4100 4200
+       25   18   22   15   24   26   20   12    4   10    4    1
+     4300
+        1
+    > is.numeric(cleanIntel$base_frequency)
+    [1] TRUE
+    
+    > table(cleanIntel$turbo_frequency)
+    1900 2000 2300 2400 2600 2700 2800 2900 3000 3100 3200 3300
+       3    2    2    1    2    7    3    9   10   10   19   19
+    3400 3500 3600 3700 3800 3900 4000 4100 4200 4300 4400 
+      24   26   27   18   30   38   25   26   16   17   32
+    4500 4600 4700 4800 4900 5000 5100 5200 5300
+      30   27   16   21   15   18   11    8    9 
+    > is.numeric(cleanIntel$turbo_frequency)
+    [1] TRUE
+    
+    > table(cleanIntel$cache_size)
+     2048  3072  4096  6144  8192  8448  9216 10240 11264 12288
+        2    38    56   116    93     8    27     2     2    74
+     14080 15360 16384 16896 19712 20480 21504 22528 24576 
+         2     5    44     6    11    15     1     3     3
+    25344 33792 36864 39424 49152 58368 
+        5     2     1     3     1     1 
+    > is.numeric(cleanIntel$cache_size)
+    [1] TRUE
+    
+    > table(cleanIntel$max_memory_size)
+    16777216    33554432    67108864 67350036.48  67580723.2
+          52         124         121           2           1
+    134217728   268435456   536870912  1073741824 
+          188           4           8          13
+    2147483648  4294967296 
+             3           5 
+    > is.numeric(cleanIntel$max_memory_size)
+    [1] TRUE
+    
+    > table(cleanIntel$max_temp)
+       59    61    62    64    65    66 66.35  66.8    68    70
+        1     3     2     6     2     5     6    10     5     1
+       71 71.35 71.45    72 72.72    73 74.04    76    77 
+        8     9     5     2    11     1     1     2     2
+       78    80    82    84    85    86    88    92    94    95
+        2     5     2     1     2     2     1     3     3     3
+       98    99   100   102   105
+        1     1   391     1    21
+    > is.numeric(cleanIntel$max_temp)
+    [1] TRUE
+    \end{lstlisting}
+\end{itemize}
+
+\section{Data Visualization}
+\subsection{Transformation}
+\begin{itemize}
+    \item[] In order to analyze the data in the dataset we have to remove several unwanted categories such as index of each object, the name and launch data.
+    \begin{lstlisting}
+    > newIntel <- cleanIntel[,c("cores", "threads", "bus_speed",
+            "base_frequency", "turbo_frequency", "cache_size",
+            "max_memory_size", "max_temp")]
+    > head(newIntel)
+    \end{lstlisting}
+    
+    \item[] By doing this, We only selected some attributes to compute the statistics. In this case "cores", "threads", "bus\_speed", "base\_frequency", "turbo\_frequency", "cache\_size", "max\_memory\_size", "max\_temp" is selected in new data frame called "newIntel".
+    \item[] The Result is:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=10cm]{Picture/newIntel.png}
+        \caption{Comparison amongst 3 data frames.}
+    \end{figure}
+    
+    \item[] As we can see, the number of variable between newIntel and clean Intel is reduce by 3 where "id", "name" and "launch\_date" have been dropped.
+    
+\end{itemize}
+
+\subsection{Descriptive Statistics}
+\begin{itemize}
+    \item [] Since considering Statistic, there are some crucial values that we need to compute such as min, max, median, mean, var, sum and so on.
+        
+    \begin{lstlisting}
+    > install.packages("pastecs")
+    > library(pastecs)
+    > stat.desc(newIntel[, c(1,2,3,4,5,6,7,8)]) %>% round(4)
+    \end{lstlisting}
+        
+    \item[] And the result is:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/De_stat.png}
+        \caption{Some significant descriptive Statistics.}
+    \end{figure}
+\end{itemize}
+
+\subsection{Graphs}
+\subsubsection{Histogram for The Number of Cores and Threads}
+\begin{itemize}
+    \item[] We will use \textbf{histogram graph} to describe the numbers of cores and threads in the dataset.
+    
+    \begin{lstlisting}
+    > #Histograms of Cores and Threads
+    > gghistogram(cleanIntel, x = "cores", fill = "blue",
+        add = "mean", rug = TRUE, add_density = TRUE)
+    > gghistogram(cleanIntel, x = "threads", fill = "red",
+        add = "mean", rug = TRUE, add_density = TRUE)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/cores-hist.png}
+        \caption{Histogram of Cores.}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/threads_hist.png}
+        \caption{Histogram of Threads.}
+    \end{figure}
+\end{itemize}
+
+\subsubsection{Base Frequency, Turbo Frequency and Bus speed related to The Number of Cores and Threads}
+\begin{itemize}
+    \item [] The relationship between each pair Cores and Threads with Base Frequency, Turbo Frequency and Bus speed also play a crucial role in analyzing the data set. In each pair, we will use strip chart to illustrate the connection amongst them.
+    \begin{lstlisting}
+    #strip chart for cores
+    > ggstripchart(newIntel,x ='turbo_frequency',y='cores',color='cores')
+    > ggstripchart(newIntel,x ='base_frequency',y='cores',color ='cores')
+    > ggstripchart(newIntel,x ='bus_speed',y='cores',color='cores')
+    \end{lstlisting}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=3cm, width=14cm]{Picture/5.3.3/core-turbo.png}
+        \includegraphics[height=3cm, width=14cm]{Picture/5.3.3/core-basef.png}
+        \includegraphics[height=6cm, width=10cm]{Picture/5.3.3/core-bus.png}
+        \caption{Box plot for cores in relation with others.}
+    \end{figure}
+    \begin{lstlisting}
+    #strip chart for threads
+    > ggstripchart(newIntel,x ='turbo_frequency',y='threads',color='threads')
+    > ggstripchart(newIntel,x ='base_frequency',y='threads',color='threads')
+    > ggstripchart(newIntel,x ='bus_speed',y='threads',color='threads')
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=3cm, width=14cm]{Picture/5.3.3/thread-turbo.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=3cm, width=14cm]{Picture/5.3.3/thread-base.png}
+        \includegraphics[height=6cm, width=10cm]{Picture/5.3.3/thread-bus.png}
+        \caption{Box plot for thread in relation with others.}
+    \end{figure}
+\end{itemize}
+
+ 
+
+\subsubsection{Box Plot for The Cache Size, Maximum Memory Size and Bus Speed}
+\begin{itemize}
+    
+    \item[] We will use \textbf{box plot} to show off distribution of cache\_size, max\_memory\_size, max\_temp in range $(0, 4e+09)$ of KB, it also considers the mean value of these categories. The two packages for this work are \textbf{tidyr} and \textbf{ggplot2}.
+
+
+    \begin{lstlisting}
+    #Box plot for cache_size
+    > gathered <- newIntel %>%
+    > pivot_longer(c(cache_size), values_to="KB")
+    > ggplot(gathered,aes(, y = KB)) + geom_boxplot() 
+        + labs(x="Cache size", y ="KB" ) 
+        + geom_boxplot(fill = 'red')
+    \end{lstlisting}
+
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width=6cm]{Picture/cache_boxplot.png}
+        \caption{Box plot for cache\_size.}
+        \label{5.3.3.2}
+    \end{figure}
+    
+    \begin{lstlisting}
+    #Box plot for max_memory_size
+    > gathered <- newIntel %>%
+    > pivot_longer(c(max_memory_size), values_to="KB")
+    > ggplot(gathered,aes(, y = KB)) + geom_boxplot() 
+        + labs(x="Max memory size", y ="KB" ) 
+        + geom_boxplot(fill = 'red')
+    \end{lstlisting}
+    
+        
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 6cm]{Picture/memory_boxplot.png}
+        \caption{Box plot for  max\_memory\_size.}
+        \label{5.3.3.2}
+    \end{figure}
+    \newpage
+    
+     \begin{lstlisting}
+    #Box plot for bus_speed
+    > gathered <- newIntel %>%
+    > pivot_longer(c(bus_speed), values_to="GT_s")
+    > ggplot(gathered,aes(, y = GT_s)) + geom_boxplot() 
+        + labs(x="Bus speed", y ="GT/s" ) + geom_boxplot(fill = 'red')
+    \end{lstlisting}
+    
+        
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=6cm]{Picture/bus_boxplot.png}
+        \caption{Box plot for bus\_speed.}
+        \label{5.3.3.2}
+    \end{figure}
+\end{itemize}
+
+\section{Theoretical Basis}
+
+\subsection{Multi-factor ANOVA Test}
+
+\subsubsection{Basic Concept of Two-way ANOVA}
+\begin{itemize}
+    \item[] A two-way ANOVA is used to estimate how the mean of a quantitative variable changes according to the levels of two categorical variables. The usage of a two-way ANOVA is to know how two independent variables, in combination, affect a dependent variable.
+    
+    \item[] \textbf{How does the ANOVA test work ?}
+    \begin{itemize}
+        \item[] ANOVA tests for significance using the F-test for statistical significance. The F-test is a group-wise comparison test, which means it compares the variance in each group mean to the overall variance in the dependent variable.
+        
+        \item[] If the variance within groups is smaller than the variance between groups, the F-test will find a higher F-value, and therefore a higher likelihood that the difference observed is real and not due to chance.
+        
+        \item[] A two-way ANOVA with interaction tests three null hypotheses at the same time:
+        \begin{itemize}
+            \item[1.] There is no difference in group means at any level of the first independent variable.
+            \item[2.] There is no difference in group means at any level of the second independent variable.
+            \item[3.] The effect of one independent variable does not depend on the effect of the other independent variable (no interaction effect).
+        \end{itemize}
+    \end{itemize}
+    
+    \item[] \textbf{Assumptions of the two-way ANOVA}
+    \begin{itemize}
+        \item[1.] Normally-distributed dependent variable: The values of the dependent variable should follow a bell curve.
+    
+        \item [2.] Homogeneity of variance (or Homoscedasticity): The variation around the mean for each group being compared should be similar among all groups. 
+        
+        \item[3.] Independence of observation: Independent variables should not be dependent on one another (i.e. one should not cause the other). This is impossible to test with categorical variables – it can only be ensured by good experimental design. In addition, the dependent variable should represent unique observations – that is, your observations should not be grouped within locations or individuals. 
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Find the best-fit model}
+\begin{itemize}
+    
+    \item[] When doing the research, we may build up many ANOVA models to explain the data. Usually, we will want to use the best-fit model, which is the best explains the variation in the dependent variable.
+    
+    \item[] The Akaike information criterion (AIC) is good test for model fit. AIC calculates the information value of each model by balancing the variaion explained against the number of parameters used.
+    
+    \item[] In AIC model selection, we compare the information value of each model and choose the one with the lowest AIC value (a lower number means more information explained).
+\end{itemize}
+
+\subsubsection{Levene Test for Homoscedasticity of Variance}
+\begin{itemize}
+    \item[] In statistics, Levene’s test is an inferential statistic used to evaluate the equality of variances for a variable determined for two or more groups. Some standard statistical procedures find that variances of the populations from which various samples are formed are equal. Levene’s test assesses this assumption.
+    
+    \item[] It examines the null hypothesis that the population variances are equal called homogeneity of variance or homoscedasticity. It compares the variances of k samples, where k can be more than two samples.
+    
+    \item[] It’s an alternative to Bartlett’s test that is less sensitive to departures from normality.
+    
+    \item[] Given a variable $Y$ with sample size of $N$ is divided into $k$ subgroups, where $N_i$ is the sample size of the $i^{th}$ subgroup, the Levene Test statistic is defined as:
+    \begin{itemize}
+        \large
+        \centering
+        \item[] $W = \dfrac{N-k}{k-1}.\dfrac{\sum_{i=1}^{k} N_i(\overline{Z_i}-\overline{Z})^2}{\sum_{i=1}^{k} \sum_{j=1}^{N_i}(Z_{ij}-\overline{Z_i})^2}$
+    \end{itemize}
+    
+    \item[] where $Z_{ij}$ can have one of the following three definitions:
+    \begin{itemize}
+        \item[1.] $Z_{ij} = \left| Y_{ij} - \overline{Y_i} \right|$, where $\overline{Y_i}$ is the \textbf{mean} of the $i^{th}$ subgroup.
+        
+        \item[2.] $Z_{ij} = \left| Y_{ij} - \hat{Y_i} \right|$, where $\hat{Y_i}$ is the \textbf{median} of th $i^{th}$ subgroup.
+        
+        \item[3.] $Z_{ij} = \left| Y_{ij} - \overline{Y_i^{'}} \right|$, where $\overline{Y_i^{'}}$ is the $10 \%$ \textbf{trimmed mean} of th $i^{th}$ subgroup.
+    \end{itemize}
+    
+    \item[] $\overline{Z_i}$ are the group means of the $Z_{ij}$ and $\overline{Z}$ is the overall mean of the $Z_{ij}$
+    
+    \item[] The three choices for defining Zij determine the robustness and power of Levene's test. By robustness, we mean the ability of the test to not falsely detect unequal variances when the underlying data are not normally distributed and the variables are in fact equal. By power, we mean the ability of the test to detect unequal variances when the variances are in fact unequal.
+\end{itemize}
+
+\subsubsection{Tukey’s Honestly Significant Difference (Tukey’s HSD) post-hoc test}
+\begin{itemize}
+    \item[] ANOVA will tell us if there are differences among group means, but not what the differences are. To find out which groups are statistically different from one another, we can perform a Tukey’s Honestly Significant Difference (Tukey’s HSD) post-hoc test for pairwise comparisons.
+    
+    \item[] Tukey’s test compares the means of all treatments to the mean of every other treatment and is considered the best available method in cases when confidence intervals are desired or if sample sizes are unequal.
+    
+    \item[] The test statistic used in Tukey’s test is denoted $q$ and is essentially a modified $t$-statistic that corrects for multiple comparisons. $q$ can be found similarly to the $t$-statistic:
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $q_{\alpha,k,N-k}$ 
+    \end{itemize}
+    
+    \item[] The studentized range distribution of $q$ is defined as:
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $q_s=\dfrac{Y_{max}-Y_{min}}{se}$ 
+    \end{itemize}
+    
+    \item[] where, $Y_{max}$ and $Y_{min}$ are the largest and smallest means of the two groups being compared. $se$ is defined as the standard error of the entire test.
+\end{itemize}
+
+\subsection{Kruskal-Wallis Test when countering Assumptions' Failures in ANOVA}
+\subsubsection{Kruskal-Wallis Test}
+\begin{itemize}
+    \item[] \textbf{Definition}
+    \begin{itemize}
+        \item[] Kruskal-Wallis test (also known as Kruskal-Wallis H test or Kruskal–Wallis ANOVA) is a non-parametric (distribution free) alternative to the one-way ANOVA.
+    
+        \item[] Kruskal-Wallis test is useful when the assumptions of ANOVA are not met or there is a significant deviation from the ANOVA assumptions. If the data meets the ANOVA assumptions, it is better to use ANOVA as it is a little more powerful than non-parametric tests.
+        
+        \item[] Kruskal-Wallis test used for comparing the differences between two or more groups. It is an extension to the Mann Whitney U Test, which is used for comparing two groups. It compares the mean ranks (medians) of groups.
+        
+        \item[] Kruskal-Wallis test does not assume any specific distribution (such as normal distribution of samples) for calculating test statistics and p values.
+        
+        \item[] The sample mean ranks or medians are compared in the Kruskal-Wallis test, which distinguishes it from the ANOVA, which compares sample means. Medians are less sensitive to outliers than means.
+    \end{itemize}
+    
+    \item[] \textbf{Kruskal-Wallis' Assumptions}
+    \begin{itemize}
+        \item[] The independent variable should have two or more independent groups.
+        
+        \item[] The observations from the independent groups should be randomly selected from the target populations.
+        
+        \item[] Observations are sampled independently from each other (no relation in observations between the groups and within the groups) i.e., each subject should have only one response.
+        
+        \item[] The dependent variable should be continuous or discrete.
+    \end{itemize}
+    
+    \item[] \textbf{Kruskal-Wallis test Hypotheses}
+    \begin{itemize}
+        \item[] If each group distribution is not the same,
+        \begin{itemize}
+            \item[] Null hypothesis: All group mean are equal. \textbf{vs} Alternative hypothesis: At least, one group mean different from other groups
+        \end{itemize}
+        \item[] In terms of medians (when each group distribution is same),
+        \begin{itemize}
+            \item[] Null hypothesis: Population medians are equal. \textbf{vs} Alternative hypothesis: At least, one population mean different from other populations
+        \end{itemize}
+    \end{itemize}
+    
+    \item[] \textbf{Kruskal-Wallis test statistic}
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $H = \left(\dfrac{12}{N(N+1)}\sum_{j=1}^{k} \dfrac{R_j^2}{n_j}-3(N+1)\right)$
+    \end{itemize}
+    
+    \item[] where,
+    \begin{itemize}
+        \item[] N is the total observation in all groups (total sample size)
+        \item[] k is the number of groups
+        \item[] $n_j$ is sample size for the $i^{th}$ group
+        \item[] $R_j$ is the sum of ranks of $j^{th}$ group 
+    \end{itemize}
+    
+    \item[] $H$ is apprximately chi-squared distributed with $df=k-1$. The $p$-value is calculated based on the comparison between the critical value and the $H$ value. If $H\geqslant$ critical value, we can reject the null hypothesis and vice versa.
+\end{itemize}
+
+\subsubsection{The Epsilon-Squared Scale}
+\begin{itemize}
+    \item[] For the Kruskal-Wallis test, epsilon-squared is a method of choice for effect size measurement.
+        
+    \item[] An epsilon square of 0 would mean no differences (and no influence), while one of 1 would indicate a full dependency.
+    \begin{itemize}
+        \item[] $0.00 < 0.01$ - Negligible
+        \item[] $0.01 < 0.04$ - Weak
+        \item[] $0.04 < 0.16$ - Moderate
+        \item[] $0.16 < 0.36$ - Relatively strong
+        \item[] $0.36 < 0.64$ - Strong
+        \item[] $0.64 < 1.00$ - Very strong
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Dunn's Test for Multiple Comparisons}
+\begin{itemize}
+    \item[] When the results of a Kruskal-Wallis test are statistically significant, it is appropriate to conduct Dunn’s Test to determine exactly which groups are different.
+    
+    \item[] Dunn’s Test performs pairwise comparisons between each independent group and tells which groups are statistically significantly different at some significant level $\alpha$.
+    
+    \item[] Dunn's $z-test$ statistic approximates the exact rank-sum test statistics by using the mean rankings of the outcome in each group from the preceding Kruskal-Wallis test. To compare group A and B, we calculate:
+    \begin{itemize}
+        \centering
+        \large
+        \item[]  $z_i = \dfrac{y_i}{\sigma_i}$
+    \end{itemize}
+    
+    \item[] where, $i$ is one of the 1 to $m$ multiple comparisons, $y_i = \overline{W_A}-\overline{W_B}$ and $\sigma_i$ is the standard deviation of $y_i$, given by:
+    \begin{itemize}
+        \large
+        \centering
+        \item[] $\sigma_i = \sqrt{\left[\dfrac{N(N+1)}{12}-\dfrac{\sum_{s=1}^{r}\tau^3_s-\tau_s}{12(N-1}\right]\left(\dfrac{1}{n_A}+\dfrac{1}{n_B}\right)}$
+    \end{itemize}
+    \item[] where, $N$ is the total number of observation across all groups, $r$ is the number of tied ranks, and $\tau_s$ is the number of observations tied at the $s^{th}$ specific tied value. When there are no ties, the term with the summation in the denominator equals zero, and the calculation will be simplified considerably.  
+    
+    
+    \item[] \textbf{Multiple-Comparison Adjustments}
+    \begin{itemize}
+        \item[] There are several methods for the adjustments such as the Bonferroni adjustment, Holm's stepwise adjustment, Holm-Sidak's stepwise adjustment and Benjamini-Hochberg stepwise adjustment.
+        
+        \item[] We will use the Benjamini-Hochberg method since this is a really powerful tool to decrease the false discovery rate and our data set seem to be quite large, sometimes small p-values (less than $5\%$) happen by chance, which could lead to incorrectly reject the true null hypotheses.
+    \end{itemize}
+    
+\end{itemize}
+
+\subsection{Multiple Linear Regression Model}
+\subsubsection{Basic Concept}
+\begin{itemize}
+    
+    \item [] Multiple linear regression is used to estimate the relationship between two or more independent variables and one dependent variable. Multiple linear regression can be use when we want to know:
+    \begin{itemize}
+        \item[1.] How strong the relationship is between two or more independent variables and one dependent variable.
+        
+        \item[2.] The value of the dependent variable at a certain value of the independent variables.
+    \end{itemize}
+    
+    \item[] \textbf{Assumptions of multiple linear regression}
+    \begin{itemize}
+        \item[] \textbf{Linearity}: the line of best fit through the data points is a straight line, rather than a curve or some sort of grouping factor. The Residuals vs Fitted and Normal Q-Q graph are used to ensure.
+        
+        \item[] \textbf{Normality}: The data follows a normal distribution. This assumption is confirmed by the usage of Shapiro-Wilk Test and Normal Q-Q graphs as well as the Residual Histogram.
+        
+        \item[] \textbf{Independence of observations (Multicollinearity)}: In multiple linear regression, it is possible that some of the independent variables are actually correlated with one another, so it is important to make sure these before developing the regression model. If two independent variables are too highly correlated ($r^{2} > ~0.6$), then only one of them should be used in the regression model. We will verify this by the Correlation Matrix and Variance Inflation Factor (Vif). 
+        
+        \item[] \textbf{Homogeneity of variance (Homoscedasticity)}: the size of the error in our prediction doesn’t change significantly across the values of the independent variable. Or simply, standard deviation are equal for all points. The Breusch-Pagan Test, Scale-Location and Residuals vs Fitted Graph are useful when supporting the validation of this assumption.
+    \end{itemize}
+    
+    \item[] \textbf{Multiple linear regression formula}
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $y=\alpha + \beta_1X_1 + ...+ \beta_nX_n + \epsilon$, where:
+        \begin{itemize}
+            \item[] \textbf{y}: the predicted value of the dependent variable.
+            
+            \item[] \textbf{$\alpha$}: the y-intercept.
+            
+            \item[] \textbf{$\beta_i, i=1,2...n$}: the regression coefficient of the $i^{th}$ variable $X_i$.
+            
+            \item[] \textbf{$\epsilon$}: model error.
+        \end{itemize}
+    \end{itemize}
+
+\end{itemize}
+\subsubsection{Interpreting Linear Regression Model Output in R}
+\begin{itemize}
+    \item[] Consider the following example:
+    \begin{lstlisting}[language=R]
+    Call:
+    lm(formula = dist ~ speed.c, data = cars)
+ 
+    Residuals:
+        Min      1Q  Median      3Q     Max 
+    -29.069  -9.525  -2.272   9.215  43.201 
+ 
+    Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+    (Intercept)  42.9800     2.1750  19.761  < 2e-16 ***
+    speed.c       3.9324     0.4155   9.464 1.49e-12 ***
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    
+    Residual standard error: 15.38 on 48 degrees of freedom
+    Multiple R-squared:  0.6511, Adjusted R-squared:  0.6438 
+    F-statistic: 89.57 on 1 and 48 DF, p-value: 1.49e-12
+    \end{lstlisting}
+    
+    \item[] Now, we will briefly explain each component of the model ouput:
+    
+    \item[] \textbf{Formula Call}: The first item shown in the output is the formula R used to fit the data.
+    
+    \item[] \textbf{Residuals}: The Residuals section of the model output breaks it down into 5 summary points. When assessing how well the model fit the data, we should look for a symmetrical distribution across these points on the mean value zero (0). In our example, we can see that the distribution of the residuals do not appear to be strongly symmetrical. That means that the model predicts certain points that fall far away from the actual observed points.
+    
+    \item[] \textbf{Coefficients}:
+    \begin{itemize}
+        \item[] \textbf{Estimate}: The coefficient Estimate contains two rows. The first one is the intercept and the second row in the Coefficients is the slope
+        
+        \item[] \textbf{Standard Error}: The coefficient Standard Error measures the average amount that the coefficient estimates vary from the actual average value of our response variable.
+        
+        \item[] \textbf{t-value}: The coefficient t-value is a measure of how many standard deviations our coefficient estimate is far away from 0. We want it to be far away from zero as this would indicate we could reject the null hypothesis - that is, we could declare a relationship between speed and distance exist.
+        
+        \item[] \textbf{Pr(>t)}: The Pr(>t) acronym found in the model output relates to the probability of observing any value equal or larger than t. A small p-value for the intercept and the slope indicates that we can reject the null hypothesis which allows us to conclude that there is a relationship between speed and distance. Typically, a p-value of $5\%$ or less is a good cut-off point. The ‘Signif. Codes’ associated to each estimate. Three stars (or asterisks) represent a highly significant p-value. 
+    \end{itemize}
+    
+    \item[] \textbf{Residual Standard Error}: Residual Standard Error is measure of the quality of a linear regression fit. Theoretically, every linear model is assumed to contain an error term $\epsilon$.
+    
+    \item[] \textbf{Multiple R-squared, Adjusted R-squared}: The R-squared $(R^{2})$ statistic provides a measure of how well the model is fitting the actual data. It takes the form of a proportion of variance. $R^2$ is a measure of the linear relationship between our predictor variable (speed) and our response / target variable (dist). It always lies between 0 and 1 (i.e.: a number near 0 represents a regression that does not explain the variance in the response variable well and a number close to 1 does explain the observed variance in the response variable). In multiple regression settings, the $R^2$ will always increase as more variables are included in the model. That’s why the adjusted $R^2$ is the preferred measure as it adjusts for the number of variables considered.
+    
+    \item[] \textbf{F-Statistc}: F-statistic is a good indicator of whether there is a relationship between our predictor and the response variables. The further the F-statistic is from 1 the better it is. However, how much larger the F-statistic needs to be depends on both the number of data points and the number of predictors. Generally, when the number of data points is large, an F-statistic that is only a little bit larger than 1 is already sufficient to reject the null hypothesis ($H_0$ : There is no relationship between speed and distance). The reverse is true as if the number of data points is small, a large F-statistic is required to be able to ascertain that there may be a relationship between predictor and response variables.  
+\end{itemize}
+
+\subsubsection{Breusch-Pagan Test for Heteroscedasticity in Regression Models}
+\begin{itemize}
+    \item[] A Breusch-Pagan Test is used to determine if heteroscedasticity is present in a regression analysis. Derived from the Lagrange multiplier test principle, it tests whether the variance of the errors from a regression is dependent on the values of the independent variables. In that case, heteroskedasticity is present.
+    
+    \item[] The Breusch-Pagan test statistic is asymptotically distributed as $\chi_{p-1}^2$ under the null hypothesis of homescedasticity. As a result, we can calculate the test statistic
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $\chi^2 = nR^2$  
+    \end{itemize}
+    
+    \item[], where $n$ is the total number of observations, $R^2$ is the R-squared of the new regression model that used the squared residuals as the response values.
+    
+    \item[] If the $p-value$ correspond to this Chi-Square test statistic is less than the significance level (i.e. $\alpha=0.05$ then reject the null hypothesis and heteroscedasticity is present. Otherwise, we fail to reject the null hypothesis. In this case, homoscedasticity is assumed to present.
+\end{itemize}
+
+\subsubsection{The Usage of Correlation Matrix}
+\begin{itemize}
+    \item[] In statistics, we’re often interested in understanding the relationship between two variables.
+    
+    \item[] One way to quantify this relationship is to use the Pearson correlation coefficient, which is a measure of the linear association between two variables. It has a value between -1 and 1 where:
+    \begin{itemize}
+        \item[] -1 indicates a perfectly negative linear correlation between two variables.
+        
+        \item[] 0 indicates no linear correlation between two variables.
+        
+        \item[] 1 indicates a perfectly positive linear correlation between two variables.
+    \end{itemize}
+    
+    \item[] The further away the correlation coefficient is from zero, the stronger the relationship between the two variables.
+    
+    \item[] in some cases we want to understand the correlation between more than just one pair of variables. In these cases, we can create a correlation matrix, which is a square table that shows the the correlation coefficients between several variables.
+    
+    \item[] \textbf{So when to use a correlation matrix}
+    \begin{itemize}
+        \item[1.] A correlation matrix conveniently summarizes a dataset.
+        \item[2.] A correlation matrix serves as a diagnostic for regression.
+        \begin{itemize}
+            \item[] One key assumption of multiple linear regression is that no independent variable in the model is highly correlated with another variable in the model.
+            
+            \item[] When two independent variables are highly correlated, this results in a problem known as multicollinearity and it can make it hard to interpret the results of the regression.
+            
+            \item[] One of the easiest ways to detect a potential multicollinearity problem is to look at a correlation matrix and visually check whether any of the variables are highly correlated with each other.
+        \end{itemize}
+        \item[3.] A correlation matrix can be used as an input in other analyses.
+    \end{itemize}
+\end{itemize}
+\subsubsection{Multicollinearity Check with VIFs}
+\begin{itemize}
+    \item[] The variance inflation factor (VIF) quantifies the extent of correlation between one predictor and the other predictors in a model. It is used for diagnosing collinearity/multicollinearity. Higher values signify that it is difficult to impossible to assess accurately the contribution of predictors to a model.
+    
+    \item[] The variance inflation for a variable is then computed as:
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $VIF = \dfrac{1}{1-R^2}$ 
+    \end{itemize}
+    \item[]where, $R^2$ is the R-squared statistic of the regression where the predictor of interest is predicted by all other predictor variables.
+    
+    \item[] A VIF value of 1 means that the predictor is not correlated with other variables. 
+    
+    \item[] The higher the value, the greater the correlation of the variable with other variables. A VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity
+\end{itemize}
+
+
+\subsection{Shapiro-Wilk Test for Normality}
+\begin{itemize}
+    
+    \item[] The Shapiro-Wilk’s test or Shapiro test is a normality test in frequentist statistics. The null hypothesis of Shapiro’s test is that the population is distributed normally. It is among the three tests for normality designed for detecting all kinds of departure from normality. 
+    
+    \item[] If the value of p is equal to or less than 0.05, then the hypothesis of normality will be rejected by the Shapiro test. On failing, the test can state that the data will not fit the distribution normally with $95\%$ confidence. However, on passing, the test can state that there exists no significant departure from normality.
+    
+    \item[] \textbf{Shapiro-Wilk's Test Formula}
+    \item[] Suppose a sample, say $x_1, x_2,...,x_n$ has come form a normally distributed population. Then according to the Shapiro-Wilk's tests null hypothesis test.
+    \begin{itemize}
+        \centering
+        \large
+        \item[] $W =\dfrac{(\sum_{i=1}^{n} a_i.x_i)^2}{(\sum_{i=1}^{n}(x_i - \overline{X}))^2}$ 
+    \end{itemize}
+    \item[] where,
+    \begin{itemize}
+        \item[] $x_i$: the $i^{th}$ smallest number in the given sample.
+        \item[] $\overline{X}= \dfrac{x_1+x_2+...+x_n}{n}$: the sample mean.
+        \item[] $a_i$: coefficient that can be calulated as $(a_1,a_2,...,a_n)=\dfrac{m^TV^{-1}}{C}$. 
+        \item[] Here $V$ is the covariance matrix, $m$ and $C$ are the vector norms that can be calculated as $C=\| V^{-1}m \|$ and $m=(m_1,m_2,...,m_n)$.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Residuals vs Leverage}
+\begin{itemize}
+    \item[] A residuals vs. leverage plot is a type of diagnostic plot that allows us to identify influential observations in a regression model.
+    
+    \item[] Each observation from the dataset is shown as a single point within the plot. The x-axis shows the leverage of each point and the y-axis shows the standardized residual of each point.
+    
+    \item[] \textbf{Leverage} refers to the extent to which the coefficients in the regression model would change if a particular observation was removed from the data set. Observations with high leverage have a strong influence on the coefficients in the regression model. If we remove these observations, the coefficients of the model would change noticeably.
+    
+    \item[] \textbf{Standardized residuals} refer to the standardized difference between a predicted value for an observation and the actual value of the observation.
+    
+    \item[] Let's take a look of the following example:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=6cm]{Picture/diagnostic2-768x731.png}
+        \caption{An example of the Residuals vs Leverage graph.}
+        \label{6.5.1}
+    \end{figure}
+    
+    \item[] If any point in this plot falls outside of Cook’s distance (the red dashed lines) then it is considered to be an influential observation. In this example, there are no points fall outside of the dashed line. This means that \textbf{this regression model does not have any influential points}
+    
+    \item[] On the other hand, suppose we had the following plot:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=6cm]{Picture/lev1-768x745.png}
+        \caption{The existence of an influential point.}
+        \label{6.5.2}
+    \end{figure}
+    
+    \item[] A quick glance at the graph tell us that observation number 1 in the top right corner falls outside of the red dashed lines. This indicates that it is an influential point.
+\end{itemize}
+
+\subsection{Scale-Location Graph}
+\begin{itemize}
+    \item[] A scale-location plot is a type of plot that displays the fitted values of a regression model along the x-axis and the the square root of the standardized residuals along the y-axis.
+    
+    \item[] When looking at this plot, we check two things:
+    \begin{itemize}
+        \item[1.] Verify that the red line is roughly horizontal across the plot. If it is, then the assumption of homoscedasticity is likely satisfied for a given regression model. That is, the spread of the residuals is roughly equal at all fitted values.
+        
+        \item[2.] Verify that there is no clear pattern among the residuals. In other words, the residuals should be randomly scattered around the red line with roughly equal variability at all fitted values.
+    \end{itemize}
+    
+    \item[] Let's consider the following example. We can observe two points from the Scale-Location plot for this regression model.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=6cm]{Picture/scaleLocation2-768x743.png}
+        \caption{An example of the Scale-Location plot.}
+        \label{6.6.1}
+    \end{figure}
+    
+    \item[] Firstly, the red line is roughly horizontal across the plot. This proves that the assumption of homoscedasticity is sastified for a given regression model.
+    
+    \item[] Secondly, the residuals should be randomly scattered around the red line with roughly equal variability at all fitted values.
+\end{itemize}
+
+\subsection{Residuals vs Fitted Graph}
+\begin{itemize}
+    \item[] The Residual vs Fitted plot allows us to detect several types of violations in the linear regression assumptions. 
+    
+    \item[] In the plot, the fitted values $\hat{y}$ is sketched on the x-axis and the residuals $y-\hat{y}$ are represented on the y-axis. The Residuals and Fitted plot is mainly useful for investigating:
+    
+    \begin{itemize}
+        \item[1.] Whether Linearity holds. This is indicated by the mean residual value for every fitted value region being close to 0. In R this is indicated by the red line being close to the dashed line.
+        
+        \item[2.] Whether Homoscedasticity holds. The spread of residuals should be approximately the same across the x-axis.
+        
+        \item[3.] Whether there are outliners. This is indicated by some 'extreme' residuals that are far from the rest.
+    \end{itemize}
+    
+    \item[] Let's take a look of the following plot for the car data set.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=5cm]{Picture/image-2.png}
+        \caption{An example of the Residuals vs Fitted plot.}
+        \label{6.7.1}
+    \end{figure}
+    
+    \item[] Here we see that linearity seems to hold reasonably well, as the red line is close to the dashed line. We can also note the heteroscedasticity: as we move to the right on the x-axis, the spread of the residuals seems to be increasing. Finally, the observations 23, 35, 49 may be outliners.
+    
+    \item[] Considering another example:
+    
+     \begin{figure}[H]
+        \centering
+        \includegraphics[height=5cm]{Picture/image-4.png}
+        \caption{An example of the Residuals vs Fitted plot.}
+        \label{6.7.2}
+    \end{figure}
+    
+    \item[] In this plot, the linearity is violated, there seems to be a quadratic relationship. Whether there is homoscedasticity or not is less obvious, we will need to investigate the others plot.
+\end{itemize}
+
+\subsection{Normal Q-Q Graph}
+\begin{itemize}
+    \item[] The Q-Q plot, or quantile-quantile plot, is a graphical tool to help us assess if a set of data plausibly came from some theoretical distribution such as a Normal or exponential.
+    
+    \item[] For example, if we run a statistical analysis that assumes our dependent variable is Normally distributed, we can use a Normal Q-Q plot to check that assumption.
+    
+    \item[] However, It’s just a visual check, not an air-tight proof, so it is somewhat subjective. But it allows us to see at-a-glance if our assumption is plausible, and if not, how the assumption is violated and what data points contribute to the violation.
+    
+    \item[] A Q-Q plot is a scatterplot created by plotting two sets of quantiles against one another. If both sets of quantiles came from the same distribution, we should see the points forming a line that’s roughly straight. Here’s an example of a Normal Q-Q plot when both sets of quantiles truly come from Normal distributions.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=6cm]{Picture/example_qq.jpeg}
+        \caption{An example of the Normal Q-Q plot.}
+        \label{6.8.1}
+    \end{figure}
+\end{itemize}
+
+
+\section{ANOVA Test for The Effect of The Numbers of Cores and Threads on other CPU Specifications}
+\subsection{Overview}
+\begin{itemize}
+    \item[] In this section, we will successively test the effects of 13 levels of cores from 2 to 38 and 15 levels of threads from 2 to 76 on other crucial factors that will extensively impact the performance of the CPU as well as the whole computer system. 
+    
+    \item[] In reality, characteristics such as bus speed, base frequency, turbo frequency, and maximum temperature are mathematically computed from the CPU's operating data to demonstrate the CPU's overall performance. As a result, we can only modify these factors' figures if we adjust the hardware itself, which is the cores and threads of the processors.
+    
+    \item[] Cache capacity and maximum memory size (RAM limit) are also worthwhile considerations at first. Increasing the cache size and RAM limit to boost computer performance is not, however, a practical option.
+    
+    \item[] To begin with, the cache size factor in our data set refers to the size of the CPU cache, which is a hardware component that works in tandem with the CPU. It aids the CPU in lowering the average cost of accessing data from the main memory (time or energy). When the volume of data exchanged between the CPU and main memory is significant, a big cache size is advantageous. However, if the data is tiny and the cache capacity is large, our CPU will spend more time looking for the cache address where the needed data is stored. In this instance, the processing speed will be slowed. We must always balance cache size with CPU speed and data size from main memory if we wish to improve performance.
+    
+    \item[] Hardware, software, and cost issues all limit the amount of memory (RAM) that may be added in a computer system. The processor package or system design may limit the number of address bus bits available to the device. An operating system may only be intended to allocate a particular amount of memory due to software limitations on usable physical RAM, or it may rely on internal data structures with set addressable memory limits. There may be no financial benefit to a manufacturer in offering extra memory for mass-market personal computers. Because memory devices were relatively expensive in comparison to processors, the RAM given with the system was frequently substantially less than the hardware's address capacity.
+    
+    \item[] As a result, we'll concentrate on just four variables: base frequency, maximum turbo frequency, junction temperature (or the highest temperature permitted at the processor die), and bus speed. These characteristics are practically modifiable and actually affect the computer's performance because they are plainly directly affected by cores and threads.
+\end{itemize}
+
+\subsection{Effects on The Processor Base Frequency}
+\begin{itemize}
+    \item[] Firstly, we are going to perform the one-way ANOVA to investigate the effect of only the number of cores or the numbers of threads on the processor base frequency.
+    
+    \item[] We will use the following code segment to run the models:
+    \begin{lstlisting}[language=R]
+    > oneway.Cores = aov(base_frequency ~ cores, data = newIntel)
+    > summary(oneway.Cores)
+    
+    > oneway.Threads = aov(base_frequency ~ threads, data = newIntel)
+    > summary(oneway.Threads)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/a3.png}
+        \caption{The results of the two models.}
+        \label{7.1.1}
+    \end{figure}
+    
+    \item[] The results have shown that the p-value for both the cores and threads variables is extremely low $(p < 0.0001)$. It means that different numbers of cores or threads used in CPUs has a real impact on the processor base frequency.
+    
+    \item[] Next, we will combine both cores and threads:
+    \begin{lstlisting}[language=R]
+    > twoway = aov(base_frequency ~ cores + threads, data = newIntel)
+    > summary(twoway)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/a3_1.png}
+        \caption{Two-way ANOVA.}
+        \label{7.1.2}
+    \end{figure}
+    
+    \item[] Constructing a two-way ANOVA has reduced the residual variance (the residual sum of squares) and both cores and threads are statistically significant $(p-value < 0.05)$.
+    
+    \item[] Up to now, we currently have 3 different ANOVA models. In order to find out the best-fit one we will perform the AIC test:
+    \begin{lstlisting}
+    > install.packages("raster")
+    > install.packages("AICcmodavg")
+    > library(AICcmodavg)
+    
+    > model.set <- list(oneway.Cores, oneway.Threads, twoway)
+    > model.names <- c("oneway.Cores", "oneway.Threads","twoway")
+    
+    > aictab (model.set, modnames = model.names)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/a3_2.png}
+        \caption{The result of AIC test.}
+        \label{7.1.3}
+    \end{figure}
+    
+    \item[] The outcome shows that the 'twoway' model is the best-fit. It has the lowest AIC score, and $94 \%$ of the AIC Weight, which means that it explains $94 \%$ of the total variation in the dependent variable that can be explained by the full set of models.
+    
+    \item[] After having the best-fit model, we are going to verify ANOVA's assumption by numerous tests and plots.
+    \item[] The following code segment will sequentially plot all necessary graphs for our research.
+    \begin{lstlisting}
+    > plot(twoway)
+    
+    > h <- hist(twoway[[ 'residuals']],breaks = 5,density = 40,
+        col ="red",xlab="Residuals",
+        main="Residuals histogram overlaid by normal distribution")
+    
+    > xfit<-seq(min(twoway[['residuals']]),max(twoway[['residuals']]),
+        length = 40)
+    
+    > yfit<-dnorm(xfit,mean=mean(twoway[['residuals']]),
+        sd=sd(twoway[['residuals']]) )
+    
+    > yfit<-yfit * diff (h$mids[1:2]) * length(twoway[['residuals']])
+    
+    > lines(xfit, yfit, col ="black", lwd = 2)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/Re_lev_ANOVA_baseFreq.png}
+        \includegraphics[width=5cm]{Picture/Scale_ANOVA_baseFreq.png}
+        \label{7.1.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/Re_Fit_ANOVA_baseFreq.png}
+        \includegraphics[width=5cm]{Picture/Norm_ANOVA_baseFreq.png}
+        \label{7.1.5}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/Norm_dist_ANOVA_baseFreq.png}
+        \caption{The result}
+        \label{7.1.6}
+    \end{figure}
+    
+    \item[] First of all from the Residuals vs Leverage plot we can see that there is no influential point. The Normal-QQ and Residuals Histogram show that the dependent variable seems to follow normal distribution. However, the assumptions of homogeneity has been violated. Although the spread of residuals are approximately symmetric across the x-axis of the Residuals vs Fitted plot, the red line in the Scale-Location graph does not seem to roughly horizontal across the graph.
+    
+    \item[] To confirm our quick inspect at the above plot, we need to perform the Shapiro-Wilk test for normality and Levene's Test for homoscedasticity.
+    \begin{lstlisting}
+    > shapiro.test(twoway[['residuals']])
+    > leveneTest(base_frequency~interaction(cores,threads),data=newIntel)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 8cm]{Picture/a3_3.png}
+        \caption{The result}
+        \label{7.1.6}
+    \end{figure}
+    
+    \item[] Unfortunately, $p$-values obtained from Shapiro-Wilk test and Levene' Test are both significant $(p<0.05)$. We conclude that the data is not normally distributed and does not have equal variance.
+    
+    \item[] Therefore, the ANOVA test is no longer suitable. In this case, Kruskal-Wallis test is more appropriate for analyzing differences among cores and threads.
+    \begin{lstlisting}
+    > kruskal.test(base_frequency~interaction(cores,threads),data=newIntel)
+    
+    > library(rcompanion)
+    > epsilonSquared(x=newIntel$base_frequency,
+        g=interaction(newIntel$cores,newIntel$threads))
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/a3_4.png}
+        \caption{The result}
+        \label{7.1.7}
+    \end{figure}
+    
+    \item[] From Kruskal-Wallis test, the $p-value < 0.05$ indicates that there are significant differences in the base frequency among the cores and threads.
+    
+    \item[] Besides, the $\epsilon^2 = 0.186$ suggests a relatively strong effect of the numbers of cores and threads on the base frequency.
+    
+    \item[] To take a deeper insight on which parts of cores and threads are statistically significant different from each other, we will perform the Dunn's Test as post-hoc test for significant Kruskal-Wallis test.
+    \begin{lstlisting}
+    > install.packages("FSA")
+    > library(FSA)
+    > dunnTest(base_frequency~interaction(cores,threads),
+        data=newIntel,method="bh")
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/Dunn_baseFreq1.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/Dunn_baseFreq2.png}
+        \label{7.1.8}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/Dunn_baseFreq3.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/Dunn_baseFreq4.png}
+        \caption{The result}
+        \label{7.1.9}
+    \end{figure}
+    
+    \item[] In the 'Comparison' column the notation $10.20-12.24$ means that "the cores number = 10 + the threads number = 20 contrasted with the cores number = 12 + the threads number = 24".
+    
+    \item[] From the table we can see that these following combinations are statistically significant difference from one another $(p-value < 0.05)$.
+    \begin{itemize}
+        \item[] 10.20 - 2.4
+        \item[] 12.24 - 2.4
+        \item[] 14.28 - 2.4
+        \item[] 2.4 - 4.4
+        \item[] 10.20 - 4.8
+        \item[] 2.4 - 4.8
+        \item[] 4.4 - 4.8
+        \item[] 2.4 - 6.12
+        \item[] 4.8 - 6.12
+        \item[] 2.4 - 6.6
+        \item[] 2.4 - 8.16
+        \item[] 4.8 - 8.16
+    \end{itemize}
+    
+    \item[] Now we may want to visualize the effects of the numbers of cores and threads on the base frequency.
+    
+    \item[] We will mark 3 labels for the significantly difference pairs found above. Let's say we use 'a' represents 2.4, 'b' represents all the intermediate pairs and 'c' represents 14.28.
+    \item[] Then we need to make an additional data frame so that we can add these groupwise differences to our group.
+    \begin{lstlisting}
+    # Summarise the original data
+    > install.packages("dplyr")
+    > library(dplyr)
+    > meanBase_Freq <- newIntel %>%
+    +   group_by(cores,threads) %>%
+    +   summarise(
+    +     base_frequency = mean(base_frequency)
+    +   )
+    # Add the group labels
+    > meanBase_Freq$group <- 
+        c("r","a","b","b","b","b","r","b","b","b","c","r","r","r","r","r","r")
+    > meanBase_Freq 
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 7cm]{Picture/dataFram_baseFreq.png}
+        \caption{The result}
+        \label{7.1.10}
+    \end{figure}
+    
+    \item[] As shown above, the data frame contains all available pairs of cores and threads. However, we only need those that are significantly difference. So we mark the rest as 'r' represents redundant. After that, we are going to remove the pairs which are labeled as 'r'.
+    \begin{lstlisting}
+    > meanBase_Freq = subset(meanBase_Freq, meanBase_Freq$group!="r")
+    > meanBase_Freq
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 7cm]{Picture/dataFram_baseFreq1.png}
+        \caption{The result}
+        \label{7.1.11}
+    \end{figure}
+    
+    \item[] Now we are ready to start making the plot.
+    \begin{lstlisting}
+    > install.packages("ggpubr")
+    > library(ggpubr)
+    
+    # Plot the raw data
+    > twowayPlot <- ggplot(newIntel,
+        aes(x=cores, y=base_frequency, group=threads))
+        +geom_point(cex=1.5, pch=1.0,
+        position=position_jitter(w=0.1,h=0))
+    
+    # Add means and se to the graph
+    > twowayPlot <- twowayPlot+
+        stat_summary(fun.data = 'mean_se',geom='errorbar',width=0.2)+
+        stat_summary(fun.data='mean_se', geom='pointrange')+
+        geom_point(data=meanBase_Freq,aes(x=cores,y=base_frequency))
+    
+    # Split up the data over the levels of threads
+    > twowayPlot <- twowayPlot+
+        geom_text(data=meanBase_Freq, label=meanBase_Freq$group, 
+        vjust = -8, size = 5)+ 
+        facet_wrap(~ threads)
+    
+    # Generate title
+    > twowayPlot <- twowayPlot+
+        theme_classic2()+
+        labs(title = "Base Frequency response to the number of cores and threads", 
+        x="The number of cores", y="Base Frequency")
+    
+    > twowayPlot
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/visual_baseFreq.png}
+        \caption{The result}
+        \label{7.1.11}
+    \end{figure}
+\end{itemize}
+
+\subsection{Effects on The Turbo Frequency}
+\begin{itemize}
+    \item[] Similar with the above section, the one-way ANOVA is established to investigate the effect of only the number of cores or the numbers of threads on the processor turbo frequency.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.2img1.png}
+        \caption{The results of the two models.}
+        \label{7.1.1}
+    \end{figure}
+    
+    \item[] The $(p-value < 0.0001)$ means that different numbers of cores or threads used in CPUs has effect on the processor turbo frequency.
+    
+    \item[] Next, we will combine both cores and threads:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.2.img2.png}
+        \caption{Two-way ANOVA.}
+        \label{7.1.2}
+    \end{figure}
+    
+    \item[] In a two-way ANOVA model, threads has $(p-value > 0.05)$, which indicates that there is a difference in group mean, so this model is no longer perfect. We will not take this model in to account when calculating the AIC score.
+    
+    \item[] Until now, we only have 2 different ANOVA models.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.2img3.png}
+        \caption{The result of AIC test.}
+        \label{7.1.3}
+    \end{figure}
+    
+    \item[] The outcome shows that the 'oneway.Threads' model is the best-fit.
+    
+    \item[] After having the best-fit model, we are going to verify ANOVA's assumption by numerous tests and plots.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/7.2Leverage.png}
+        \includegraphics[width=5cm]{Picture/7.2scale.png}
+        \label{7.1.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/7.2fitted.png}
+        \includegraphics[width=5cm]{Picture/7.2normal.png}
+        \label{7.1.5}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/7.2Residuals.png}
+        \caption{The result}
+        \label{7.1.6}
+    \end{figure}
+    
+    \item[] We can see that there is no influential point. The dependent variable seem to follow normal distribution. However, the assumptions of homogeneity has been violated.
+    
+    \item[] To confirm our quick inspect at the above plot, we need to perform the Shapiro-Wilk test for normality and Levene's Test for homoscedasticity.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.2Sha.png}
+        \caption{The result}
+        \label{7.1.6}
+    \end{figure}
+    
+    \item[] $p$-values obtained from Shapiro-Wilk test is significant $(p<0.05)$. We conclude that the data is not normally distributed. But, we have sufficient evidence to say that the model sastisfies homoscedasticity assumption. 
+    
+    \item[] Anyway, the ANOVA test is no longer suitable. Kruskal-Wallis test will then be used for analyzing differences among threads.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.2Kru.png}
+        \caption{The result}
+        \label{7.1.7}
+    \end{figure}
+    
+    \item[] From Kruskal-Wallis test, the $p-value < 0.05$ indicates that there are significant differences in the turbo frequency among the threads.
+    
+    \item[] With $\epsilon^2 = 0.555$, recommending a strong effect of the numbers threads on the turbo frequency.
+    
+    \item[] The Dunn's Test as post-hoc test for significant Kruskal-Wallis test will be used for futher analysis on which parts of threads are statistically significant difference from the others.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/table1fixed.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/table2fixed.png}
+        \label{7.1.8}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/table3fixed.png}
+        \hfill
+        \caption{The result}
+        \label{7.1.9}
+    \end{figure}
+\end{itemize}
+
+\subsection{Effects on The Maximum Temperature}
+\begin{itemize}
+    \item[] In this part, we still follow the same structure with the previous models but the "max\_temp" factor will be the one to be examined:
+ 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=10cm]{Picture/effect_maxtemp1.png}
+        \caption{The result of two models.}
+    \end{figure}
+    
+    \item[] The results have indicated that different numbers of cores or threads used in CPUs has a real influence on the processor base frequency.
+    
+    \item[] Next, we will combine both cores and threads:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/twoways_max_temp.png}
+        \caption{Two-way ANOVA on max\_temp.}
+    \end{figure}
+    
+    \item[] Two-way ANOVA model shows that both cores and threads are statistically significant $(p-value < 0.05)$.
+    
+    \item[] Now, we will find out which one is the best-fit:
+   
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/Max_temp/max_temp (AIC).png}
+        \caption{The result of AIC test.}
+    \end{figure}
+    
+    \item[] It appears that the 'twoway' model is the best-fit. ANOVA's assumptions are going to be confirmed by numerous tests and plots.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/Max_temp/ResvsLev.png}
+        \includegraphics[width=5cm]{Picture/Max_temp/scale_loc.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/Max_temp/Revsfit.png}
+        \includegraphics[width=5cm]{Picture/Max_temp/Theo_Quan.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/Max_temp/res.png}
+        \caption{The result}
+    \end{figure}
+    
+    \item[] Quickly glance at those diagrams above, it is obvious that the model does not follow normal distribution as well as fail the homogeneity's assumption.
+    
+    \item[] To confirm our brief conclusion, we need to perform the Shapiro-Wilk test for normality and Levene's Test for homoscedasticity.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 8cm]{Picture/Max_temp/shapiro_lev.png}
+        \caption{The result}
+    \end{figure}
+    
+    \item[] As the result, Kruskal-Wallis test is more appropriate for analyzing differences among cores and threads.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 8cm]{Picture/Max_temp/kru_esp.png}
+        \caption{Kruskal-Wallis result.}
+    \end{figure}
+    
+     \item[] The Kruskal-Wallis test helps us to conclude that there are significant differences in the maximum temperature among the cores and threads. And the $\epsilon^2 = 0.282$ which between (0.16;0.36) suggests a relatively strong effect of the numbers of cores and threads on the base frequency.
+     
+    \item[] We continue performing the Dunn's Test as post-hoc test for significant Kruskal-Wallis test.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/Max_temp/temp1.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/Max_temp/temp2.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/Max_temp/temp3.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/Max_temp/temp4.png}
+        \caption{The result}
+    \end{figure}
+\end{itemize}
+
+\subsection{Effects on The Bus Speed}
+\begin{itemize}
+    \item[] We now perform the one-way ANOVA to investigate the effect of only the number of cores or the number of threads on the bus speed.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/anova_busSpeed(1).PNG}
+        \caption{The results of the two models.}
+        \label{7.4.1}
+    \end{figure}
+    
+    \item[] The p-value for both the cores and threads variables is extremely low $(p < 0.0001)$, so that different numbers of cores or threads used in CPUs does has influence on the processor's bus speed.
+    
+    \item[] Next, we will combine both cores and threads:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/anova_busSpeed(2).PNG}
+        \caption{Two-way ANOVA.}
+        \label{7.4.2}
+    \end{figure}
+    
+    \item[] Constructing a two-way ANOVA indicates that both cores and threads are statistically significant $(p-value < 0.05)$.
+    
+    \item[] Then, we will use the AIC test to select the best-fit model:
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/anova_busSpeed(3).PNG}
+        \caption{The result of AIC test.}
+        \label{7.4.3}
+    \end{figure}
+    
+    \item[]The outcome shows that the 'twoway' model is the best-fit. It has the lowest AIC score, and $100 \%$ of the AIC Weight.
+    
+    \item[] After having the best-fit model, we are going to make sure that ANOVA's assumptions is still satisfied.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/Re_lev_ANOVA_busSpeed.png}
+        \includegraphics[width=5cm]{Picture/Scale_ANOVA_busSpeed.png}
+        \label{7.4.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=5cm]{Picture/Re_Fit_ANOVA_busSpeed.png}
+        \includegraphics[width=5cm]{Picture/Norm_ANOVA_busSpeed.png}
+        \label{7.4.5}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=5cm,width= 8cm]{Picture/Norm_dist_ANOVA_busSpeed.png}
+        \caption{The result}
+        \label{7.4.6}
+    \end{figure}
+    
+    \item[] We now perform the Shapiro-Wilk test for normality and Levene's Test for homoscedasticity.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.4.7.png}
+        \caption{The result}
+        \label{7.4.7}
+    \end{figure}
+    
+    \item[] The $p$-values obtained from Shapiro-Wilk test and Levene' Test are both significant $(p<0.05)$. Combining with the plots, We have enough proof to conclude that the data is not normally distributed and does not have equal variance.
+    
+    \item[] So, we try Kruskal-Wallis test on this case.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/7.4.8.png}
+        \caption{The result}
+        \label{7.4.8}
+    \end{figure}
+    
+    \item[] The $p-value < 0.05$ indicates that there are significant differences in the bus speed among the cores and threads. $\epsilon^2 = 0.511$ advise a strong effect of the numbers of cores and threads on the base frequency.
+    
+    \item[] The Dunn's Test as post-hoc test for significant Kruskal-Wallis test then will be included to study which parts are the source of the differences.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/Dunn_busSpeed1.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/Dunn_busSpeed2.png}
+        \label{7.4.9}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=7cm]{Picture/Dunn_busSpeed3.png}
+        \hfill
+        \includegraphics[width=7cm]{Picture/Dunn_busSpeed4.png}
+        \caption{The result}
+        \label{7.4.10}
+    \end{figure}
+    
+    \item[] From the table we can see that these following combinations are statistically significant difference from one another $(p-value < 0.05)$.
+    \begin{itemize}
+        \item[] 10.20 - 2.4
+        \item[] 12.24 - 2.4
+        \item[] 14.28 - 2.4
+        \item[] 16.32 - 2.4
+        \item[] 18.36 - 2.4
+        \item[] 2.2 - 2.4
+        \item[] 2.4 - 24.48
+        \item[] 2.4 - 28.56
+        \item[] 2.4 - 4.4
+        \item[] 10.20 - 4.8
+        \item[] 12.24 - 4.8
+        \item[] 18.36 - 4.8
+        \item[] 2.4 - 4.8
+        \item[] 4.4 - 4.8
+        \item[] 2.4 - 6.12
+        \item[] 4.8 - 6.12
+        \item[] 2.4 - 6.6
+        \item[] 4.8 - 6.6
+        \item[] 2.4 - 8.16
+        \item[] 4.4 - 8.16
+        \item[] 4.8 - 8.16
+        \item[] 2.4 - 8.8
+        \item[] 4.8 - 8.8
+    \end{itemize}
+\end{itemize}
+
+\subsection{Summary}
+\begin{itemize}
+    \item[] Overall, we can observe that in fact, there is a real impact of the number of cores and threads on other variables. However, when trying to examine their effect with the ANOVA models, one or both core assumptions for ANOVA to work well are failed, which are normality and homogeneity.
+    
+    \item[] Consequently, we have to try another approach with the Kruskal-Wallis Test to study whether there are statistically significant differences among the cores and threads or not. If indeed there are, the Dunn's test, in additional served as the post-hoc test for the Kruskal-Wallis Test, will show us which parts of cores and threads cause the difference. Besides, the epsilon-squared also contribute to the analysis by giving the level of effect.
+    
+    \item[] Throughout the researching process with ANOVA, all of the models' variation around the mean for each group being compared is not equal among all groups. The Dunn's test has proved its efficiency on providing information about which parts has caused the statistically significant difference.  
+\end{itemize}
+
+\section{Fitting Linear Regression Models}
+\subsection{Overview}
+\begin{itemize}
+    \item[] In this section, we are intending to build a linear regression model for researching the dependency of each variables on the others.
+    
+    \item[] During the whole process, we will need to keep in mind the following criteria:
+    \begin{itemize}
+        \item[] \textbf{Verify the fitness of linear regression's assumptions:}
+        \begin{itemize}
+            \item[] \textbf{Linearity}: Predictors in the model have a straight-line relationship with the dependent variable. 
+            \item[] \textbf{Normality}: The residuals of the model should follow the normal distribution.
+            
+            \item[] \textbf{Multi-Collinearity}: Predictors are not correlated to each other.
+            
+            \item[] \textbf{Homogeneity}: Standard deviations are equal for all observations.
+        \end{itemize}
+    \end{itemize}
+    
+    \item[] While building a regression model, we will try the backward elimination strategy, which starts with all predictors in the model, iteratively removes the least contributed predictors, and stops when you have a model where all predictors are statistically significant.
+\end{itemize}
+
+\subsection{Diagnostic for Regression with Correlation Matrix}
+\begin{itemize}
+    \item[] The following code segment will help us generate the correlation matrix to take a look inside the relationship between independent variables as well as between independent and dependent variables:
+    \begin{lstlisting}
+    > test_cor_matrix = newIntel
+    > round(cor(test_cor_matrix),4)
+    \end{lstlisting}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 14cm]{Picture/8_1_1.png}
+        \caption{The correlation matrix}
+        \label{8.2.1}
+    \end{figure}
+    
+    \item[] A quick glance at the matrix tell us that the correlation between cores and threads is 0.9734, which indicates that they are strongly positively correlated. Hence, it is essential to not fit cores and threads in the same model.
+    
+    \item[] For the relations like bus speed and maximum temperature, whose correlated value is close to 0 (0.0078 in this case), simply because they are not correlated at all.
+    
+    \item[] The next noticeable point from the matrix is that cache size is the dependent variable that is most related to our two statistically significant variables, cores and threads (0.9539 and 0.9483, respectively).
+    
+    \item[] On the other hand, maximum temperature's correlated values with others seems to be negative or close to zero so there is no reason to examine the dependency of this factor.
+\end{itemize}
+
+\subsection{Fitting Cache Size in Linear Regression Models}
+\subsubsection{With Cores and The Others}
+\begin{itemize}
+    \item[] Firstly, we will build the linear regression model without threads in the predictors list and run the summary on our model.
+    \begin{lstlisting}
+    > library(lmtest)
+    > library(car)
+    > library(lindia)
+    > Y = newIntel$cache_size
+    > model = lm(Y~cores+bus_speed+base_frequency+        
+        turbo_frequency+max_memory_size+max_temp,data=newIntel)
+    > summary(model)
+    \end{lstlisting}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8_3_1.png}
+        \caption{The model's summary}
+        \label{8.3.1}
+    \end{figure}
+    
+    \item[] From the table, The adjusted R-squared is really high (0.9408), which indicates that the model has fit well. But, we need to drop bus speed, base frequency, max memory size and max temperature out of the model since their $p-value > 0.05$ and run the summary again.
+    
+    \item[] Before doing that, we have to make sure our model still meet the assumptions of linear regression models.
+    
+    \item[] The following code segment will successively verify each assumption:
+    \begin{lstlisting}
+    > plot(model)
+    > h<-hist(model[['residuals']],breaks=5,density=40,
+        col="red", xlab="Residuals"
+        ,main ="Residuals histogram overlaid by+normal distribution graph")
+    > xfit<-seq(min(model[['residuals']]),max(model[['residuals']])
+        ,length=40)
+    > yfit<-dnorm(xfit,mean=mean(model[['residuals']])
+        ,sd=sd(model[['residuals']]) )
+    > yfit<-yfit*diff(h$mids[1:2])*length(model[['residuals']])
+    > lines(xfit,yfit,col="black",lwd = 2)
+    > vif(model) # Check for Multi-Collinearity
+    > shapiro.test(model[['residuals']])# Check for Normality
+    > bptest(model)# Check for homogeneity
+    \end{lstlisting}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8_3_2_1.png}
+        \includegraphics[width= 5cm]{Picture/8_3_2_2.png}
+        \label{8.3.2}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8_3_3_1.png}
+        \includegraphics[width= 5cm]{Picture/8_3_3.png}
+        \label{8.3.3}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/8_3_4.png}
+        \caption{The plots for our model}
+        \label{8.3.4}
+    \end{figure}
+    
+    
+    \item[] The Residuals vs Leverage graph show that our model don not have any influential points. But from the rest, we can see that item with row index 110, 496, 498 are the out-liners. In case, our model passes all assumption, we will need to delete these row before running a new summary.
+    
+    \item[] From the Normal-QQ graph, the predictors tend to have a linear relation with the dependent variable. However, the red line in Residual vs Fitted plot does not close to 0,in fact, it has a decreasing trend, which means that linearity is violated. The residual histogram seems to fit the normal distribution. Since the spread of residuals in Residuals vs Fitted plot is not symmetric about the x-axis and the red line in Scale-Location graph is not approximately horizontal, the model does not meet homoscedasticity assumption.
+    
+    \item[] There are no VIF values that exceed 5 or 10, which indicate all variables in this model are not correlated to each other.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 14cm]{Picture/8_3_5.png}
+        \caption{The VIF result}
+        \label{8.3.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 6cm]{Picture/8_3_6.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+        \label{8.3.4}
+    \end{figure}
+    
+    \item[] Unluckily, the $p-valule$ in both tests is less than 0.05 so the model disobey the normality and homogeneity assumptions. Therefore, we will stop this path of fitting the cache size with cores and the others.
+\end{itemize}
+
+\subsubsection{With Threads and The Others}
+\begin{itemize}
+    \item[]Similarly, we now build the linear regression model without cores.
+    
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8.3.2__1.PNG}
+        \caption{The model's summary}
+        \label{8.3.2.1}
+    \end{figure}
+    
+     \item[] The R-squared value is high (0.9363) that means the model has fit well. We have to get rid of base frequency and max memory size(p-value > 0.05) and then run the summary again. But we have to check if our model is satisfied with the assumptions.
+    
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.3.2__2.PNG}
+        \includegraphics[width= 5cm]{Picture/8.3.2__3.PNG}
+        \label{8.3.2.2}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.3.2__4.PNG}
+        \includegraphics[width= 5cm]{Picture/8.3.2__5.png}
+        \label{8.3.3.3}
+    \end{figure}
+    
+     \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/8.3.2__6.png}
+        \caption{The plots for our model}
+        \label{8.3.4.4}
+    \end{figure}
+    
+    \item[]The Residuals vs Leverage graph show that our model don not have any influential points. But from the rest, we can see that item with row index 110, 496, 498 again are the out-liners. In case, our model passes all assumption, we will need to delete these row before running a new summary
+    
+    \item[] Similary with the cores model, this model also does not meet almost all of the assumptions.
+    
+    \item[]There are no VIF values that exceed 5 or 10 so a problematic amount of collinearity does not exist.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/8.3.2__7.png}
+        \caption{The VIF result}
+        \label{8.3.5.5}
+    \end{figure}
+    
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.3.2__8.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+        \label{8.3.4}
+    \end{figure}
+     
+      \item[] The $p-valule$ in both tests is less than 0.05 so the model breach the normality and homogeneity assumptions. Therefore, the cache size can not fit in a linear regression model.
+     
+\end{itemize}    
+
+\subsection{Fitting Maximum Memory Size in Linear Regression Models}
+\subsubsection{With Cores and The Others}
+\begin{itemize}
+    \item[] Firstly, we will build the linear regression model with cores in the predictors list and run the summary on our model.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/max_memsize/result1.png}
+        %R^2 = 0.4967; p-value < 2.2e^-16
+        \caption{The model's summary}
+        \label{8.3.1}
+    \end{figure} 
+    \item[] From the table, The adjusted R-squared not high (0.4967), which indicates that the model may not appropriate in this circumstance.
+    
+    \item[] Despite that, we still try to take a further inspect on whether the model meet linear regression assumptions or not.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/max_memsize/ResvaLev.png}
+        \includegraphics[width= 5cm]{Picture/max_memsize/Scale-Loc.png}
+        \label{8.3.2}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/max_memsize/Resvsfit.png}
+        \includegraphics[width= 5cm]{Picture/max_memsize/Q-Q.png}
+        \label{8.3.3}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/max_memsize/Residuals.png}
+        \caption{The plots for our model}
+        \label{8.3.4}
+    \end{figure}
+    
+    \item[] From all the plots above, our model has some out-liners. The normal distribution seems to be applied in this case. Nevertheless, homogeneity and linearity tends to be disrupted. 
+    
+    \item[] The cores and cache size with $ vif \approx 14.35$ and $17.05$, respectively, are the two that have a strong relation with each other as we have diagnosed before.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/max_memsize/vif model.png}
+        \caption{The VIF result}
+        \label{8.3.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/max_memsize/shapiro and breusch.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+        \label{8.3.4}
+    \end{figure}
+    
+    \item[] The Shapiro-Wilk and Breusch-Pagan Tests has once again proved our conclusion above. Hence, the model is aborted.
+    
+    \end{itemize}
+\subsubsection{With Threads And The Others} 
+\begin{itemize}
+    \item[] The summary for our linear regression model are shown below:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/max_memsize/result2.png}
+        \caption{The model's summary}
+        \label{8.3.1}
+    \end{figure} 
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/max_memsize/ResvsLev2.png}
+        \includegraphics[width= 5cm]{Picture/max_memsize/Scale-loc2.png}
+        \label{8.3.2}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/max_memsize/ResvsFit2.png}
+        \includegraphics[width= 5cm]{Picture/max_memsize/Q-Q2.png}
+        \label{8.3.3}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 8cm]{Picture/max_memsize/Residuals2.png}
+        \caption{The plots for our model}
+        \label{8.3.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/max_memsize/vif model2.png}
+        \caption{The VIF result}
+        \label{8.3.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/max_memsize/shapiro and breusch2.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+        \label{8.3.4}
+    \end{figure}
+    
+    \item[] The result is similar with previous cores model where a low R-squared value give us enough evidence to finalize that the maximum memory size is not able to match in a linear regression model.
+    \end{itemize}
+
+\subsection{Fitting Bus Speed In A Linear Regression Model}
+\subsubsection{With Cores And The Others}
+\begin{itemize}
+    \item[]The linear regression model with cores will be implemented as following:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8.5.1.png}
+        \caption{The model's summary}
+    \end{figure}
+
+    \item[] The adjusted R-squared is not really high (0.4842), which indicates that the model may not proper. However, as we did before, we will try to investigate the linear regression's assumption.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.5.2.1.png}
+        \includegraphics[width= 5cm]{Picture/8.5.2.2.png}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.5.2.3.png}
+        \includegraphics[width= 5cm]{Picture/8.5.2.4.png}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/8.5.3.png}
+        \caption{The plots for our model}
+    \end{figure}
+
+    \item[] Normality seems to be fitted well. But, other plots show really strange behaviour which means that other assumptions have been failed.
+
+    \item[] The VIF values of cores and cache size exceed 10, which indicates these variables are correlated to each other.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/8.5.4.png}
+        \caption{The VIF result}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.5.5.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+    \end{figure}
+
+    \item[] The result from the above tests strengthen our conclusion that the linear regression model is not suitable in this case.
+\end{itemize}
+
+\subsubsection{With Threads and The Others}
+\begin{itemize}
+    \item[] The summary of this model is included below. But, we strongly believe that the result will be the same and linear regression still not suitable for our observation.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8.5.6.png}
+        \caption{The model's summary}
+    \end{figure}
+ 
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.5.7.1.png}
+        \includegraphics[width= 5cm]{Picture/8.5.7.2.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.5.7.3.png}
+        \includegraphics[width= 5cm]{Picture/8.5.7.4.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/8.5.8.png}
+        \caption{The plots for our model}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/8.5.9.png}
+        \caption{The VIF result}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.5.10.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+    \end{figure}
+    
+    \item[] Same with our prediction, the results has proved that the bus speed is not capable of fitting a linear regression model.
+\end{itemize}
+
+\subsection{Fitting Base Frequency in Linear Regression Models}
+\subsubsection{With Cores and The Others}
+\begin{itemize}
+    \item[] Let's build the model without threads and run the summary.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8.6.1__1.PNG}
+        \caption{The model's summary}
+    \end{figure}
+
+    \item[] Since the adjusted R-squared is not high (0.44), once again, the linear regression is not an applicable approach. 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.6.1__2.PNG}
+        \caption{The results of Shapiro-Wilk and Breusch-Pagan tests}
+    \end{figure}
+
+    \item[] It is clear that the model is also not satisfied with the normality and homogeneity assumptions when both $p-values$ are all less than $0.05$.
+\end{itemize}
+
+\subsubsection{With Threads and The Others}
+\begin{itemize}
+
+\item[]Now, let's try with threads model.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width= 10cm]{Picture/8.6.2__1.PNG}
+    \caption{The results}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width= 5cm]{Picture/8.6.2__2.PNG}
+    \caption{The results of Shapiro-Wilk and Breusch-Pagan tests}
+\end{figure}
+
+\item[]Similarly, this model is also not fit with linear regression’s assumptions.
+\end{itemize}
+
+\subsection{Fitting Turbo Frequency in Linear Regression Models}
+\subsubsection{With Cores and The Others}
+\begin{itemize}
+    \item[] Here is the model's summary with cores in the predictors list:
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8.7img1.png}
+        \caption{The model's summary}
+        \label{8.3.1}
+    \end{figure}
+    
+    \item[] From the table, the adjusted R-squared is 0.6286, which is above the average. Besides, all the predictors have a strong relationship with the dependent variable. Hence, we hope that there might be a chance of fitting a linear regression model in this case. 
+    
+    \item[] But, we still have to make sure our model meet the assumptions of linear regression models.
+ 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.7Leverage.png}
+        \includegraphics[width= 5cm]{Picture/8.7Scale.png}
+        \label{8.3.2}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.7Fitted.png}
+        \includegraphics[width= 5cm]{Picture/8.7Normal.png}
+        \label{8.3.3}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/8.7Residuals.png}
+        \caption{The plots for our model}
+        \label{8.3.4}
+    \end{figure}
+
+    \item[] The histogram and Normal Q-Q graph show that the model may follow the normal distribution. But, the other plots contain unusual pattern meaning that linearity and homogeneity assumptions are likely to be violated.
+    
+     \item[] There exists a problematic amount of collinearity since VIF values of cores and cache size are far larger than 10.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/8.7VIF.png}
+        \caption{The VIF result}
+        \label{8.3.4}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.7tesst.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+        \label{8.3.4}
+    \end{figure}
+    
+   \item[] As consequences, we will have to end this path of fitting the turbo frequency in a linear regression model.
+\end{itemize}
+
+\subsubsection{With Threads and The Others}
+\begin{itemize}
+    \item[] Similarly, we now establish the linear regression model with threads.
+
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width= 10cm]{Picture/8.7img2.PNG}
+        \caption{The model's summary}
+        \label{8.3.2.1}
+    \end{figure}
+    
+     \item[] The result is the same with the previous model. It raises an opportunity to establish a linear regression model here. If our model pass all assumption, we will have to eliminate bus speed out of the model because of its exceeding $p-value$.
+ 
+     \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.7Leverage2.PNG}
+        \includegraphics[width= 5cm]{Picture/8.7Scale2.PNG}
+        \label{8.3.2.2}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.7Fitted2.PNG}
+        \includegraphics[width= 5cm]{Picture/8.7Normal2.png}
+        \label{8.3.3.3}
+    \end{figure}
+    
+     \begin{figure}[H]
+        \centering
+        \includegraphics[height = 5cm,width= 8cm]{Picture/8.7Residuals2.png}
+        \caption{The plots for our model}
+        \label{8.3.4.4}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 12cm]{Picture/VIF2.png}
+        \caption{The VIF result}
+        \label{8.3.5.5}
+    \end{figure}
+    
+    \item[] Sadly, there is no differences on the outcome from the plots and VIF. Except for normality, all others assumption are breached.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width= 5cm]{Picture/8.7test2.png}
+        \caption{The result of Shapiro-Wilk and Breusch-Pagan tests}
+        \label{8.3.4}
+    \end{figure}
+     
+    \item[] The $p-valule$ in both tests is less than 0.05 has put an end to this model. We still can not explore the dependency of turbo frequency on the others predictors with linear regression model.
+\end{itemize}
+
+\subsection{Summary}
+\begin{itemize}
+    \item[] In conclusion, all of the variables, which have been selected to fit in a linear regression model, have failed some or all of the assumptions. Beside, in some circumstances, the R-squared value for the model is even below the average. In general, the linear regression model are not appropriate to predicts their dependency of variables in our data set.
+    
+    \item[] However, there are so interesting points from the research that we need to mention. First of all, although the linear regression model is not a suitable approach, we still observe a strong relationship between some dependent variables and some predictors such as the cache size, cores, threads... Secondly, the model summary for each dependent variables always indicate that there are some predictors that have a strong impact while the others does not. In other words, there exist a relationship between the dependent variable and predictors yet it is not a linear relationship because of its assumption failures. 
+    
+    \item[] Base on all analyses have been made, we have come to a prediction that may be a non-linear regression model will be a better choice. However, the time, knowledge and experience's limitations have prevented us from doing a further study using non-linear regression model with our data set. In the future, when the chance comes, we will try our best to construct research with the non-linear regression model.  
+\end{itemize}
+
+
+\section{References}
+\begin{itemize}
+    \item[1.] Jay L.Devore. Probability and Statistics for Engineering and The Sciences, $9^{th}$ Edition. California Polytechnic State University, San Luis Obispo.
+    
+    \item[2.] Harold R.Lindman. Analysis of Variance in Experimental Design. Springer-Verlag, New York (1992).
+    
+    \item[3.] Erjavec N. Tests for Homogeneity of Variance. In: Lovric M. (eds) International Encyclopedia of Statistical Science. Springer, Berlin, Heidelberg (2011).
+    
+    \item[4.] H. Levene. Robust Tests for Equality of Variances. In: I. Olkin, et al., Eds., Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling. Stanford University Press, Palo Alto (1960); pp 278-292. 
+    
+    \item[5.] Jason T.Newsom. Post Hoc Tests. In: Univariate Quantitative Methods. Portland State University (2020).
+    
+    \item[6.] Alexis Dinno. Nonparametric Pairwise Multiple Comparisons in Independent Groups Using Dunn's Test. The Stata Journal (2015); 15(1):292-300.
+    
+    \item[7.] Susan Pedersen. Research Methods: Effect Sizes and "What If" Analyses as Supplements to Statistical Significance Tests. Journal of Early Intervention (2003); 25(4):310-319.
+
+    \item[8.]  T.Van Hecke. Power Study of ANOVA Versus Kruskal-Wallis Test. Journal of Statistics and Management Systems (2012); 15(2-3):241-7.
+    
+    \item[9.] J.D.Jobson. Multiple Linear Regression. In: Applied Multivariate Data Analysis. Springer Texts in Statistic. Springer, New York (1991).
+    
+    \item[10.] Jamal I.Daoud. Multicollinearity and Regression Analysis. Journal of Physics: Conference Series (2017); 949.
+    
+    \item[11.] Edward R.Mansfield and Billy P.Helms. Detecting Multicollinearity. The American Statistician (1982); 36(3a):158-160.
+    
+    \item[12.] Aylin Alin. Multicollinearity. WIREs Computational Statistics (2010); 2(3):370-374.
+    
+    \item[13.] Kelly H.Zou, Kemal Tuncali and Stuart G.Silverman. Correlation and Simple Linear Regerssion. Radiology (2003); 227(3).
+    
+    \item[14.] P.J.Twomey and M.H.Kroll. How to use Linear Regression and Correlation in Quantitative Method Comparison Studies. International Journal of Clinical Practice (2008); 62(4):529-538.
+    
+    \item[15.] Zofia Hanusz, Joanna Tarasinska and Wojciech Zielinski. Shapiro-Wilk Test with Known Mean. REVSTAT - Statistic Journal (2016); 14(1):89-100.
+    
+    \item[16.] T.S. Breusch and A.R.Pagan. A Simple Test for Heteroscedasticity and Random Coefficient Variation. The Econometric Society (1979); 47(5):1287-1294.
+    
+    \item[17.] Peter J.Rousseeuw. A Diagnostic Plot for Regression Outliners and Leverage Points. In: Computational Statistics and Data Analysis (1991); 11(1):127-129.
+    
+    \item[18.] Joseph W.McKean,Simon J.Sheather and Thomas P.Hettmansperger. The Use and Interpretation of Residuals Based on Robust Estimation. Journal of the American Statistical Association (1993); 88(424):1254-1263.
+    
+    \item[19.] C.P.Quesenberry and Chatles Quesenberry Jr. On the Distribution of Residuals form Fitted Parametric Models. Journal of Statistical Computation and Simulation (1982). 15(2-3):129-140.
+    
+    \item[20.] T.Johnsson. A Procedure for Stepwise Regression Analysis. Statistical Papers 33, 21-29 (1992).
+    
+    \item[21.] C.Agostinelli. Robust Stepwise Regression. Journal of Applied Statistics (2002); 29(6):825-840.
+\end{itemize} 
+\end{document}
